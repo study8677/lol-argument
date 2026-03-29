@@ -71,7 +71,7 @@ export function InputForm({ onSubmit }: InputFormProps) {
         <label className="block text-sm text-neutral-400 mb-2">
           迭代轮数
         </label>
-        <div className="flex gap-3">
+        <div className="flex items-center gap-3">
           {ROUND_OPTIONS.map((n) => (
             <button
               key={n}
@@ -86,11 +86,25 @@ export function InputForm({ onSubmit }: InputFormProps) {
               {n} 轮
             </button>
           ))}
+          <div className="flex items-center gap-1.5">
+            <input
+              type="number"
+              min={1}
+              max={20}
+              value={rounds}
+              onChange={(e) => {
+                const v = parseInt(e.target.value, 10);
+                if (v >= 1 && v <= 20) setRounds(v);
+              }}
+              className="w-16 bg-neutral-900 border border-neutral-700 rounded-lg px-2 py-2 text-sm text-center text-neutral-200 focus:outline-none focus:border-amber-500/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            />
+            <span className="text-sm text-neutral-500">轮</span>
+          </div>
         </div>
         <p className="mt-1.5 text-xs text-neutral-600">
           {mode === "interactive"
             ? "交互模式下你可以随时提前结束"
-            : "轮数越多，论证越深入，耗时和费用也更高"}
+            : "轮数越多，论证越深入，耗时和费用也更高（1-20）"}
         </p>
       </div>
 
