@@ -6,8 +6,6 @@
 
 **Find out if you actually hold an opinion — or just have an unchallenged tendency.**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
-&nbsp;&nbsp;
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 &nbsp;&nbsp;
 [中文](./README_ZH.md)
@@ -89,28 +87,7 @@ A structured stress test report: which arguments survived, which were destroyed,
 | **Interactive** | Pause after each round. Read, think, add your own input. You decide when to continue or stop. |
 | **Auto** | Agents run all rounds on their own. You just watch. |
 
-## Quick Start
-
-```bash
-git clone https://github.com/study8677/lol-argument.git
-cd lol-argument
-npm install
-npm run dev
-```
-
-Open **http://localhost:3000** → Settings → Enter your API key → Write your opinion → Go.
-
-### API Key
-
-Enter it in the UI settings panel (stored in browser localStorage, never sent to our servers). Or set it in `.env.local`:
-
-```bash
-cp .env.example .env.local
-```
-
-> **If deploying publicly:** Don't put API keys in env vars. Let users bring their own.
-
-### Supported Providers
+## Supported Providers
 
 | Provider | Default Model | Notes |
 |----------|--------------|-------|
@@ -141,17 +118,40 @@ cp .env.example .env.local
 
 </details>
 
+## Getting Started
+
+```bash
+git clone https://github.com/study8677/lol-argument.git
+cd lol-argument
+npm install
+cp .env.example .env.local   # Edit with your API key
+npm run dev                  # → http://localhost:3000
+```
+
+Or skip `.env.local` entirely — just enter your API key in the Settings panel on the page.
+
 ## Deploy
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
+Currently local-only. Cloud deployment (Vercel / Cloudflare Pages) coming soon.
 
-API routes configured with `maxDuration` (turn: 60s, report: 120s). Works on Vercel Hobby (free).
+The app requires server-side API routes for LLM calls, so static hosting (GitHub Pages) is not supported.
+
+<details>
+<summary>Self-host with Docker (coming soon)</summary>
+
+```bash
+docker build -t lol-argument .
+docker run -p 3000:3000 lol-argument
+```
+
+</details>
 
 ## Development
 
 ```bash
 npm run dev        # Dev server (Turbopack)
 npm run build      # Production build
+npm run start      # Production server
 npm test           # Vitest (70 tests)
 npm run typecheck  # tsc --noEmit
 npm run lint       # ESLint

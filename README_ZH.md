@@ -6,8 +6,6 @@
 
 **帮你发现自己到底有没有真正持有一个观点。**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
-&nbsp;&nbsp;
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 &nbsp;&nbsp;
 [English](./README.md)
@@ -89,28 +87,7 @@ Prompt 层面强制反阿谀：*不留情面、不客气、直击要害。*
 | **交互模式** | 每轮暂停，你可以阅读、思考、插入自己的反馈。你决定何时继续或停止。 |
 | **自动模式** | 智能体自行跑完所有轮次，你只需观看。 |
 
-## 快速上手
-
-```bash
-git clone https://github.com/study8677/lol-argument.git
-cd lol-argument
-npm install
-npm run dev
-```
-
-打开 **http://localhost:3000** → 设置 → 输入 API Key → 写下观点 → 开始。
-
-### API Key
-
-在页面设置面板中输入（存在浏览器 localStorage，不会发到服务器）。或写入 `.env.local`：
-
-```bash
-cp .env.example .env.local
-```
-
-> **公开部署时：** 不要在环境变量中配置 API Key，让用户自带。
-
-### 支持的 Provider
+## 支持的 Provider
 
 | Provider | 默认模型 | 备注 |
 |----------|---------|------|
@@ -141,17 +118,30 @@ cp .env.example .env.local
 
 </details>
 
+## 快速上手
+
+```bash
+git clone https://github.com/study8677/lol-argument.git
+cd lol-argument
+npm install
+cp .env.example .env.local   # 编辑填入 API Key
+npm run dev                  # → http://localhost:3000
+```
+
+也可以不配 `.env.local`，直接在页面设置面板中输入 API Key。
+
 ## 部署
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
+当前仅支持本地运行。云部署（Vercel / Cloudflare Pages）即将支持。
 
-API routes 已配置 `maxDuration`（turn: 60s, report: 120s），兼容 Vercel Hobby（免费）。
+本项目需要服务端 API Routes 调用 LLM，不支持纯静态托管（如 GitHub Pages）。
 
 ## 开发
 
 ```bash
 npm run dev        # 开发服务器 (Turbopack)
 npm run build      # 生产构建
+npm run start      # 生产服务器
 npm test           # Vitest (70 tests)
 npm run typecheck  # tsc --noEmit
 npm run lint       # ESLint
