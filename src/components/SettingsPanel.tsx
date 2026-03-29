@@ -114,20 +114,40 @@ export function SettingsPanel() {
 
           {/* Base URL (custom only) */}
           {settings.provider === "custom" && (
-            <div>
-              <label className="block text-xs text-neutral-500 mb-1.5">
-                Base URL
-              </label>
-              <input
-                type="text"
-                value={settings.baseURL ?? ""}
-                onChange={(e) =>
-                  updateSettings({ baseURL: e.target.value || undefined })
-                }
-                placeholder="http://localhost:11434/v1"
-                className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-500"
-              />
-            </div>
+            <>
+              <div>
+                <label className="block text-xs text-neutral-500 mb-1.5">
+                  Base URL
+                </label>
+                <input
+                  type="text"
+                  value={settings.baseURL ?? ""}
+                  onChange={(e) =>
+                    updateSettings({ baseURL: e.target.value || undefined })
+                  }
+                  placeholder="http://localhost:11434/v1"
+                  className="w-full bg-neutral-900 border border-neutral-700 rounded px-3 py-2 text-sm text-neutral-200 placeholder-neutral-600 focus:outline-none focus:border-neutral-500"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="thinking-mode"
+                  checked={!!settings.providerOptions}
+                  onChange={(e) =>
+                    updateSettings({
+                      providerOptions: e.target.checked
+                        ? { openai: { chat_template_kwargs: { thinking: true } } }
+                        : undefined,
+                    })
+                  }
+                  className="rounded border-neutral-700"
+                />
+                <label htmlFor="thinking-mode" className="text-xs text-neutral-400">
+                  Thinking Model (kimi-k2.5 等需要)
+                </label>
+              </div>
+            </>
           )}
         </div>
       )}

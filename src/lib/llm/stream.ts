@@ -10,13 +10,16 @@ export function callAgentStreaming(
   model: LanguageModel,
   systemPrompt: string,
   userPrompt: string,
-  maxOutputTokens: number = 2048
+  maxOutputTokens: number = 2048,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  providerOptions?: any
 ) {
   return streamText({
     model,
     system: systemPrompt,
     messages: [{ role: "user", content: userPrompt }],
     maxOutputTokens,
+    providerOptions,
   });
 }
 

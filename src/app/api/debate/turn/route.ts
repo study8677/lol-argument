@@ -44,11 +44,16 @@ export async function POST(request: NextRequest) {
       body.phase
     );
 
+    // Build provider options (e.g. NVIDIA kimi needs chat_template_kwargs)
+    const providerOptions = body.providerOptions ?? undefined;
+
     // Stream response
     const streamResult = callAgentStreaming(
       model,
       agent.systemPrompt,
-      userPrompt
+      userPrompt,
+      2048,
+      providerOptions
     );
 
     return createStreamResponse(

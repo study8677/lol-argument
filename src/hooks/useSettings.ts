@@ -6,8 +6,12 @@ import type { ProviderConfig } from "@/types";
 const STORAGE_KEY = "lol-argument-settings";
 
 const DEFAULT_SETTINGS: ProviderConfig = {
-  provider: "anthropic",
-  model: "claude-sonnet-4-6",
+  provider: (typeof window !== "undefined" && process.env.NEXT_PUBLIC_LLM_PROVIDER as ProviderConfig["provider"]) || "anthropic",
+  model: process.env.NEXT_PUBLIC_LLM_MODEL || "claude-sonnet-4-6",
+  baseURL: process.env.NEXT_PUBLIC_CUSTOM_BASE_URL || undefined,
+  providerOptions: process.env.NEXT_PUBLIC_LLM_PROVIDER === "custom"
+    ? { openai: { chat_template_kwargs: { thinking: true } } }
+    : undefined,
 };
 
 function readStoredSettings(): ProviderConfig {

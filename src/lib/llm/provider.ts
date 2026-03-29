@@ -30,17 +30,18 @@ export function resolveModel(
       const client = createOpenAI({
         apiKey: apiKey || process.env.OPENAI_API_KEY,
       });
-      return client(m);
+      return client.chat(m);
     }
     case "custom": {
-      if (!baseURL) {
+      const url = baseURL || process.env.CUSTOM_BASE_URL;
+      if (!url) {
         throw new Error("Custom provider requires baseURL");
       }
       const client = createOpenAI({
-        apiKey: apiKey || "not-needed",
-        baseURL,
+        apiKey: apiKey || process.env.OPENAI_API_KEY || "not-needed",
+        baseURL: url,
       });
-      return client(m);
+      return client.chat(m);
     }
     default:
       throw new Error(`Unknown provider: ${p}`);

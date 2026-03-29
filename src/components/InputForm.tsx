@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { SettingsPanel } from "./SettingsPanel";
 import { useApiKey } from "@/hooks/useApiKey";
+import type { DebateMode } from "@/types";
 
 interface InputFormProps {
-  onSubmit: (opinion: string, rounds: number) => void;
+  onSubmit: (opinion: string, rounds: number, mode: DebateMode) => void;
 }
 
 const ROUND_OPTIONS = [3, 5, 7] as const;
@@ -13,6 +14,7 @@ const ROUND_OPTIONS = [3, 5, 7] as const;
 export function InputForm({ onSubmit }: InputFormProps) {
   const [opinion, setOpinion] = useState("");
   const [rounds, setRounds] = useState<number>(3);
+  const [mode, setMode] = useState<DebateMode>("interactive");
   const { hasKey } = useApiKey();
 
   const canSubmit = opinion.trim().length > 0 && hasKey;
@@ -30,6 +32,37 @@ export function InputForm({ onSubmit }: InputFormProps) {
         />
         <div className="mt-1 text-right text-xs text-neutral-600">
           {opinion.length} 字
+        </div>
+      </div>
+
+      {/* Mode Selector */}
+      <div>
+        <label className="block text-sm text-neutral-400 mb-2">模式</label>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => setMode("interactive")}
+            className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-colors ${
+              mode === "interactive"
+                ? "border-amber-500/50 bg-amber-500/10 text-amber-400"
+                : "border-neutral-700 text-neutral-500 hover:text-neutral-300"
+            }`}
+          >
+            <div className="font-medium">交互模式</div>
+            <div className="text-xs mt-0.5 opacity-70">每轮暂停，你可以参与讨论</div>
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("auto")}
+            className={`flex-1 px-4 py-2.5 rounded-lg border text-sm transition-colors ${
+              mode === "auto"
+                ? "border-amber-500/50 bg-amber-500/10 text-amber-400"
+                : "border-neutral-700 text-neutral-500 hover:text-neutral-300"
+            }`}
+          >
+            <div className="font-medium">自动模式</div>
+            <div className="text-xs mt-0.5 opacity-70">智能体自行讨论完所有轮次</div>
+          </button>
         </div>
       </div>
 
@@ -55,7 +88,9 @@ export function InputForm({ onSubmit }: InputFormProps) {
           ))}
         </div>
         <p className="mt-1.5 text-xs text-neutral-600">
-          轮数越多，论证越深入，但耗时和费用也更高
+          {mode === "interactive"
+            ? "交互模式下你可以随时提前结束"
+            : "轮数越多，论证越深入，耗时和费用也更高"}
         </p>
       </div>
 
@@ -64,7 +99,7 @@ export function InputForm({ onSubmit }: InputFormProps) {
 
       {/* Submit */}
       <button
-        onClick={() => canSubmit && onSubmit(opinion.trim(), rounds)}
+        onClick={() => canSubmit && onSubmit(opinion.trim(), rounds, mode)}
         disabled={!canSubmit}
         className={`w-full py-3 rounded-lg text-base font-medium transition-all ${
           canSubmit
@@ -72,7 +107,7 @@ export function InputForm({ onSubmit }: InputFormProps) {
             : "bg-neutral-800 text-neutral-600 cursor-not-allowed"
         }`}
       >
-        开始压力测试
+        提交观点
       </button>
 
       {!hasKey && (

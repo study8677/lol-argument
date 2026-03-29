@@ -31,7 +31,9 @@ ${JSON.stringify(STRESS_TEST_REPORT_SCHEMA, null, 2)}
 export async function generateReport(
   model: LanguageModel,
   opinion: string,
-  transcript: AgentMessage[]
+  transcript: AgentMessage[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  providerOptions?: any
 ): Promise<StressTestReport> {
   const buildMessages = transcript.filter((m) => m.phase === "build");
   const demolishMessages = transcript.filter((m) => m.phase === "demolish");
@@ -56,6 +58,7 @@ ${formatTranscript(demolishMessages)}
     system: REPORT_SYSTEM_PROMPT,
     messages: [{ role: "user", content: userPrompt }],
     maxOutputTokens: 4096,
+    providerOptions,
   });
 
   let report = tryParseReport(result.text);

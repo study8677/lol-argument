@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       body.baseURL
     );
 
-    const report = await generateReport(model, body.opinion, body.transcript);
+    const report = await generateReport(model, body.opinion, body.transcript, body.providerOptions);
     return Response.json(report);
   } catch (err) {
     const message = err instanceof Error ? err.message : "Internal error";

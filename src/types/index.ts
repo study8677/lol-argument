@@ -4,13 +4,19 @@
 
 export type DebatePhase =
   | "idle"
+  | "ready_to_build"    // Opinion submitted, waiting for user to click "开始构建"
   | "building"
-  | "built"
+  | "build_round_done"  // Interactive mode: round finished, waiting for user input / continue
+  | "built"             // All build rounds done, waiting for user to flip
   | "flipping"
+  | "ready_to_demolish" // After flip animation, waiting for user to click "开始反驳"
   | "demolishing"
+  | "demolish_round_done" // Interactive mode: round finished, waiting for user input / continue
   | "demolished"
   | "reporting"
   | "complete";
+
+export type DebateMode = "auto" | "interactive";
 
 // ============================================================
 // Agent Roles
@@ -53,10 +59,10 @@ export interface AgentDefinition {
 
 export interface AgentMessage {
   id: string;
-  agentRole: AgentRole;
+  agentRole: AgentRole | "user"; // "user" for user-inserted messages
   phase: Phase;
   round: number;
-  content: string; // Full committed content (worklog + answer raw)
+  content: string;
   timestamp: number;
 }
 
@@ -68,6 +74,7 @@ export interface ProviderConfig {
   provider: "anthropic" | "openai" | "custom";
   model: string;
   baseURL?: string;
+  providerOptions?: Record<string, unknown>;
 }
 
 // ============================================================
@@ -76,10 +83,11 @@ export interface ProviderConfig {
 
 export interface DebateState {
   phase: DebatePhase;
+  mode: DebateMode;
   opinion: string;
-  rounds: number;
-  transcript: AgentMessage[]; // Single array, phase on each message
-  pendingContent: string; // Temp UI buffer for streaming tokens
+  rounds: number; // 0 = unlimited (interactive decides when to stop)
+  transcript: AgentMessage[];
+  pendingContent: string;
   currentRound: number;
   currentAgent: AgentRole | null;
   report: StressTestReport | null;
@@ -126,6 +134,7 @@ export interface TurnRequest {
   provider?: string;
   model?: string;
   baseURL?: string;
+  providerOptions?: Record<string, unknown>;
 }
 
 export interface ReportRequest {
@@ -134,4 +143,5 @@ export interface ReportRequest {
   provider?: string;
   model?: string;
   baseURL?: string;
+  providerOptions?: Record<string, unknown>;
 }

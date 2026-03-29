@@ -25,8 +25,12 @@ export function formatTranscript(messages: AgentMessage[]): string {
       lines.push(`\n═══ ${phaseLabel}阶段 · 第 ${currentRound} 轮 ═══\n`);
     }
 
-    const agent = getAgent(msg.agentRole);
-    lines.push(`【${agent.name}】:`);
+    if (msg.agentRole === "user") {
+      lines.push(`【用户反馈】:`);
+    } else {
+      const agent = getAgent(msg.agentRole);
+      lines.push(`【${agent.name}】:`);
+    }
     lines.push(msg.content);
     lines.push("");
   }
@@ -102,10 +106,16 @@ export function buildUserPrompt(
     // Find agents who already spoke this round
     const thisRoundMessages = phaseMessages.filter((m) => m.round === round);
     if (thisRoundMessages.length > 0) {
-      const spoke = thisRoundMessages.map(
-        (m) => getAgent(m.agentRole).name
-      );
-      parts.push(`本轮已经发言的智能体：${spoke.join("、")}。请在他们的基础上继续加固论证。`);
+      const spoke = thisRoundMessages
+        .filter((m) => m.agentRole !== "user")
+        .map((m) => getAgent(m.agentRole as AgentRole).name);
+      const userFeedback = thisRoundMessages.filter((m) => m.agentRole === "user");
+      if (spoke.length > 0) {
+        parts.push(`本轮已经发言的智能体：${spoke.join("、")}。请在他们的基础上继续加固论证。`);
+      }
+      if (userFeedback.length > 0) {
+        parts.push(`用户在本轮提供了反馈，请认真考虑：\n${userFeedback.map((m) => m.content).join("\n")}`);
+      }
     }
 
     if (isLastRound && agentRole === "synthesizer") {
@@ -117,10 +127,16 @@ export function buildUserPrompt(
     // Demolish phase
     const thisRoundMessages = phaseMessages.filter((m) => m.round === round);
     if (thisRoundMessages.length > 0) {
-      const spoke = thisRoundMessages.map(
-        (m) => getAgent(m.agentRole).name
-      );
-      parts.push(`本轮已经发言的攻击者：${spoke.join("、")}。配合他们的攻击，从你的角度继续摧毁论证。`);
+      const spoke = thisRoundMessages
+        .filter((m) => m.agentRole !== "user")
+        .map((m) => getAgent(m.agentRole as AgentRole).name);
+      const userFeedback = thisRoundMessages.filter((m) => m.agentRole === "user");
+      if (spoke.length > 0) {
+        parts.push(`本轮已经发言的攻击者：${spoke.join("、")}。配合他们的攻击，从你的角度继续摧毁论证。`);
+      }
+      if (userFeedback.length > 0) {
+        parts.push(`用户在本轮提供了反馈，请认真考虑：\n${userFeedback.map((m) => m.content).join("\n")}`);
+      }
     }
 
     if (isLastRound && agentRole === "deconstructor") {
