@@ -1,61 +1,93 @@
+<div align="center">
+
 # lol-argument
 
-**Opinion Stress Test — Find out if you actually hold an opinion, or just have an unchallenged tendency.**
+### Opinion Stress Test
 
+**Find out if you actually hold an opinion — or just have an unchallenged tendency.**
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
+&nbsp;&nbsp;
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+&nbsp;&nbsp;
 [中文](./README_ZH.md)
 
-> - Drafted a blog post
-> - Used an LLM to meticulously improve the argument over 4 hours.
-> - Wow, feeling great, it's so convincing!
-> - Fun idea let's ask it to argue the opposite.
-> - LLM demolishes the entire argument and convinces me that the opposite is in fact true.
-> - lol
+</div>
+
+---
+
+<div align="center">
+<br>
+
+> *Drafted a blog post. Used an LLM to meticulously improve the argument over 4 hours. Wow, feeling great, it's so convincing! Fun idea let's ask it to argue the opposite. LLM demolishes the entire argument and convinces me that the opposite is in fact true.* ***lol***
 >
-> — Andrej Karpathy
+> — **Andrej Karpathy**
 
-Most people think they have opinions, but really they just have tendencies that have never been challenged. LLM sycophancy makes this worse — ask it to improve your argument and it'll only make you more confident, never telling you "your argument doesn't hold up."
+<br>
+</div>
 
-This tool turns Karpathy's 4-hour manual experience into a structured, multi-agent, repeatable product flow.
+<div align="center">
 
-<!-- TODO: Add screenshots/GIF -->
+![demo](./docs/demo.gif)
+
+*8 AI agents build your argument up, then tear it apart.*
+
+</div>
+
+---
+
+## The Problem
+
+LLMs are sycophants. Ask one to improve your argument and it'll make you feel like a genius. It won't tell you *"your entire premise is wrong."*
+
+**lol-argument** fixes this by design: first it builds you up (so you feel invincible), then it **destroys** you (so you learn something). The emotional arc — confidence rising → peak → collapse — is the product.
 
 ## How It Works
 
-### 1. Build Phase
+```
+┌─────────────┐     ┌──────────┐     ┌───────────────┐     ┌──────────┐
+│  Your Opinion │ ──▶ │  BUILD   │ ──▶ │  YOU FLIP 🔄  │ ──▶ │ DEMOLISH │ ──▶ 📊 Report
+└─────────────┘     └──────────┘     └───────────────┘     └──────────┘
+                     4 agents          "I'm confident"      4 agents
+                     strengthen it     ← you commit →       destroy it
+```
 
-Enter your opinion. 4 AI agents collaboratively strengthen it over multiple rounds:
+### Build Phase — *"This is unbreakable"*
 
-| Agent | Role |
-|-------|------|
-| 🔗 **The Logician** | Builds formal logical framework, identifies premises and reasoning chains |
-| 📊 **The Empiricist** | Adds data, evidence, real-world examples, statistical support |
-| 🏛️ **The Philosopher** | Deepens philosophical foundations, ethical dimensions |
-| 🔮 **The Synthesizer** | Integrates all contributions, produces the fortified argument |
+| | Agent | What they do |
+|---|---|---|
+| 🔗 | **The Logician** | Formal logic framework — premises, chains, conclusions |
+| 📊 | **The Empiricist** | Data, evidence, real-world examples, statistics |
+| 🏛️ | **The Philosopher** | Philosophical foundations, ethics, deeper implications |
+| 🔮 | **The Synthesizer** | Integrates everything into a unified fortified argument |
 
-Agents read, reference, and build on each other's work. Each round strengthens the previous.
+Agents read and build on each other's work. Multiple rounds. Gets stronger each time.
 
-### 2. You Trigger the Flip
+### The Flip — *"I'm ready"*
 
-When you feel the argument is "strong enough", click the flip button. This moment matters — you're psychologically committing to "I believe this argument is complete."
+You decide when to flip. This matters — you're committing to *"I believe this argument is complete."* Then the screen goes dark.
 
-### 3. Demolish Phase
+### Demolish Phase — *"...oh no"*
 
-4 opposing agents enter and ruthlessly attack your argument:
+| | Agent | What they do |
+|---|---|---|
+| 🔍 | **The Skeptic** | Attacks premises — *"Why should we accept that?"* |
+| 😈 | **The Devil's Advocate** | Builds the strongest counter-narrative |
+| ⚡ | **The Realist** | *"In practice, this fails because..."* |
+| 🔬 | **The Deconstructor** | Finds logical fallacies, hidden biases, circular reasoning |
 
-| Agent | Role |
-|-------|------|
-| 🔍 **The Skeptic** | Attacks premises and assumptions |
-| 😈 **The Devil's Advocate** | Builds the strongest counter-narrative |
-| ⚡ **The Realist** | Points out practical failures and counterexamples |
-| 🔬 **The Deconstructor** | Identifies logical fallacies and hidden biases |
+Anti-sycophancy is enforced at the prompt level: *no mercy, no politeness, strike at the core.*
 
-### 4. Stress Test Report
+### The Report — *"Here's what survived"*
 
-The system generates a structured report:
-- Which arguments survived the attack
-- Which were demolished
-- Your blind spots
-- Overall strength assessment
+A structured stress test report: which arguments survived, which were destroyed, your blind spots, and an overall strength rating.
+
+## Two Modes
+
+| Mode | How it works |
+|------|-------------|
+| **Interactive** | Pause after each round. Read, think, add your own input. You decide when to continue or stop. |
+| **Auto** | Agents run all rounds on their own. You just watch. |
 
 ## Quick Start
 
@@ -66,64 +98,71 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000, enter your API key in the settings panel, type your opinion, and start testing.
+Open **http://localhost:3000** → Settings → Enter your API key → Write your opinion → Go.
 
-### API Key Setup
+### API Key
 
-Two options (pick one):
-
-1. **UI input** (recommended): Enter directly in the settings panel on the page. Stored in browser localStorage.
-2. **Environment variable**: Copy `.env.example` to `.env.local` and fill in your key.
+Enter it in the UI settings panel (stored in browser localStorage, never sent to our servers). Or set it in `.env.local`:
 
 ```bash
 cp .env.example .env.local
-# Edit .env.local
 ```
 
-> **Security Note:** When deploying publicly, do NOT set API keys in environment variables. Let each user provide their own key via the UI.
+> **If deploying publicly:** Don't put API keys in env vars. Let users bring their own.
 
-### Supported LLM Providers
+### Supported Providers
 
 | Provider | Default Model | Notes |
 |----------|--------------|-------|
-| **Anthropic** | `claude-sonnet-4-6` | Default, recommended |
-| **OpenAI** | `gpt-4o` | Switch in settings |
-| **Custom** | User-defined | Supports Ollama, vLLM, and other OpenAI-compatible endpoints |
+| Anthropic | `claude-sonnet-4-6` | Recommended |
+| OpenAI | `gpt-4o` | Switch in settings |
+| Custom | Any | Ollama, vLLM, NVIDIA NIM, any OpenAI-compatible endpoint |
 
-## Architecture
+## Tech Stack
 
-- **Framework**: Next.js 15 (App Router) + TypeScript
-- **Styling**: Tailwind CSS v4
-- **LLM**: Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/openai`)
-- **State**: Single-page state machine, `useReducer` + `sessionStorage` persistence
-- **Orchestration**: Client-driven, each agent turn is an independent API call
-- **Streaming**: Newline-delimited JSON over ReadableStream
-- **Testing**: Vitest (66 tests)
+| Layer | Tech |
+|-------|------|
+| Framework | Next.js 15 (App Router) + TypeScript |
+| Styling | Tailwind CSS v4 |
+| LLM | Vercel AI SDK — multi-provider |
+| State | Single-page state machine, `useReducer` + `sessionStorage` |
+| Orchestration | Client-driven, per-agent streaming API calls |
+| Streaming | Newline-delimited JSON over ReadableStream |
+| Testing | Vitest (70 tests) |
 
-### Key Design Decisions
+<details>
+<summary><b>Architecture Details</b></summary>
 
-- **Turn Commit Semantics**: Streaming tokens are temporary UI state only. Only `agent_done` commits to transcript and sessionStorage.
-- **State Version**: sessionStorage includes a version number. Stale state is discarded on reducer schema changes.
-- **Worklog Protocol**: `[[WORKLOG]]`/`[[ANSWER]]` hard delimiters with deterministic parsing and graceful fallback.
-- **Anti-Sycophancy**: Demolish phase prompts enforce "no mercy, no politeness, strike at the core."
+- **Turn Commit Semantics** — Streaming tokens are temp UI state. Only `agent_done` commits to transcript + sessionStorage.
+- **State Version** — sessionStorage carries a version number; stale state auto-discards on schema change.
+- **Worklog Protocol** — `[[WORKLOG]]`/`[[ANSWER]]` hard delimiters with deterministic parsing.
+- **Client Orchestration** — Each agent turn is 1 API call (~15s). No long-running server functions. Vercel Hobby compatible.
+- **Anti-Sycophancy** — Demolish prompts enforce ruthlessness. Build prompts deliberately encourage confidence (it's a feature).
 
-## Deploy to Vercel
+</details>
+
+## Deploy
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fstudy8677%2Flol-argument)
 
-API routes are configured with `maxDuration` (turn: 60s, report: 120s), compatible with Vercel Hobby plan.
+API routes configured with `maxDuration` (turn: 60s, report: 120s). Works on Vercel Hobby (free).
 
-## Scripts
+## Development
 
 ```bash
-npm run dev        # Start dev server (Turbopack)
+npm run dev        # Dev server (Turbopack)
 npm run build      # Production build
-npm run start      # Start production server
-npm test           # Run tests (Vitest)
-npm run typecheck  # TypeScript type check
+npm test           # Vitest (70 tests)
+npm run typecheck  # tsc --noEmit
 npm run lint       # ESLint
 ```
 
 ## License
 
 [MIT](./LICENSE)
+
+---
+
+<div align="center">
+<sub>Inspired by <a href="https://x.com/karpathy">Andrej Karpathy</a>'s moment of cognitive collapse. The "lol" is the point.</sub>
+</div>
