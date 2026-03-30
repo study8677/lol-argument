@@ -26,7 +26,11 @@
 
 <div align="center">
 
-![demo](./docs/demo.gif)
+<img src="./docs/screenshot-landing.png" alt="首页" width="700">
+
+*输入观点，选择模式，开始压力测试。*
+
+<img src="./docs/screenshot-input.png" alt="输入观点" width="700">
 
 *8 个 AI 智能体，先帮你加固论证，再把它彻底摧毁。*
 

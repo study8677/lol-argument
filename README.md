@@ -26,7 +26,11 @@
 
 <div align="center">
 
-![demo](./docs/demo.gif)
+<img src="./docs/screenshot-landing.png" alt="Landing page" width="700">
+
+*Enter your opinion. Choose interactive or auto mode. Start the stress test.*
+
+<img src="./docs/screenshot-input.png" alt="Opinion entered" width="700">
 
 *8 AI agents build your argument up, then tear it apart.*
 
